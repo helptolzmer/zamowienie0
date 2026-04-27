@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Royal Flowers — Zamów dostawę</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: -apple-system, Arial, sans-serif; background: #f5f2ed; color: #1a1a1a; }
+
+header {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+header h1 { font-size: 22px; letter-spacing: 3px; font-weight: 700; }
+header p { font-size: 13px; color: #aaa; margin-top: 4px; letter-spacing: 1px; }
+
+.hero {
+  background: linear-gradient(135deg, #2d1b4e, #1a3a2a);
+  color: #fff;
+  padding: 30px 20px;
+  text-align: center;
+}
+.hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.hero p { font-size: 14px; color: #ccc; line-height: 1.6; }
+.hero .badges { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.badge { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: #fff; }
+
+.form-wrap { max-width: 480px; margin: 0 auto; padding: 24px 20px; }
+
+.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #999; margin-bottom: 12px; margin-top: 24px; }
+.section-title:first-child { margin-top: 0; }
+
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.options-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.opt-btn {
+  padding: 14px 8px;
+  background: #fff;
+  border: 2px solid #e0ddd7;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  font-family: -apple-system, Arial, sans-serif;
+  text-align: center;
+  transition: all 0.15s;
+  line-height: 1.3;
+}
+.opt-btn .icon { font-size: 20px; display: block; margin-bottom: 4px; }
+.opt-btn.selected { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 6px; }
+.field input, .field textarea, .field select {
+  display: block; width: 100%; padding: 14px; border: 2px solid #e0ddd7; border-radius: 12px;
+  font-size: 16px; background: #fff; color: #1a1a1a; font-family: -apple-system, Arial, sans-serif;
+  -webkit-appearance: none; appearance: none;
+}
+.field textarea { min-height: 80px; resize: none; }
+.field input:focus, .field textarea:focus { outline: none; border-color: #1a1a1a; }
+
+.info-box { background: #fff; border: 1px solid #e0ddd7; border-radius: 12px; padding: 16px; margin-bottom: 14px; font-size: 13px; color: #666; line-height: 1.6; }
+.info-box strong { color: #1a1a1a; }
+
+.submit-btn {
+  display: block; width: 100%; padding: 18px;
+  background: #25d366;
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 17px; font-weight: 700; cursor: pointer;
+  font-family: -apple-system, Arial, sans-serif;
+  margin-top: 24px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.submit-btn:active { opacity: 0.85; }
+
+.error { color: #9b2226; font-size: 13px; margin-top: 6px; display: none; }
+
+footer { text-align: center; padding: 30px 20px; color: #999; font-size: 12px; }
+footer strong { color: #1a1a1a; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 ROYAL FLOWERS</h1>
+  <p>NOWY SĄCZ — DOSTAWY KWIATÓW</p>
+</header>
+
+<div class="hero">
+  <h2>Zamów kwiaty z dostawą</h2>
+  <p>Świeże bukiety dostarczamy pod wskazany adres w Nowym Sączu i okolicach</p>
+  <div class="badges">
+    <span class="badge">🚗 Dostawa Nowy Sącz od 150 zł</span>
+    <span class="badge">📍 Poza miastem +2 zł/km</span>
+    <span class="badge">⚡ Szybka realizacja</span>
+  </div>
+</div>
+
+<div class="form-wrap">
+
+  <div class="section-title">1. Na jaką okazję?</div>
+  <div class="options-grid" id="okazja-grid">
+    <button class="opt-btn" data-val="Urodziny"><span class="icon">🎂</span>Urodziny</button>
+    <button class="opt-btn" data-val="Rocznica"><span class="icon">💑</span>Rocznica</button>
+    <button class="opt-btn" data-val="Imieniny"><span class="icon">🎉</span>Imieniny</button>
+    <button class="opt-btn" data-val="Podziękowanie"><span class="icon">🙏</span>Podziękowanie</button>
+    <button class="opt-btn" data-val="Powitanie"><span class="icon">👶</span>Narodziny</button>
+    <button class="opt-btn" data-val="Inna okazja"><span class="icon">🌸</span>Inna okazja</button>
+  </div>
+  <div class="error" id="err-okazja">Wybierz okazję</div>
+
+  <div class="section-title">2. Jaki budżet?</div>
+  <div class="options-grid cols3" id="budzet-grid">
+    <button class="opt-btn" data-val="100-150 zl"><span class="icon">💚</span>100–150 zł</button>
+    <button class="opt-btn" data-val="200-250 zl"><span class="icon">💛</span>200–250 zł</button>
+    <button class="opt-btn" data-val="300+ zl"><span class="icon">❤️</span>300+ zł</button>
+  </div>
+  <div class="error" id="err-budzet">Wybierz budżet</div>
+
+  <div class="section-title">3. Szczegóły zamówienia</div>
+
+  <div class="field">
+    <label>Twoje imię i nazwisko</label>
+    <input type="text" id="imie" placeholder="np. Anna Kowalska">
+  </div>
+  <div class="field">
+    <label>Twój numer telefonu</label>
+    <input type="tel" id="telefon" placeholder="np. 600 123 456" inputmode="numeric">
+  </div>
+  <div class="field">
+    <label>Adres dostawy</label>
+    <input type="text" id="adres" placeholder="np. ul. Jagiellońska 15, Nowy Sącz">
+  </div>
+  <div class="field">
+    <label>Data dostawy</label>
+    <input type="date" id="data-dostawy">
+  </div>
+  <div class="field">
+    <label>Godzina dostawy</label>
+    <input type="time" id="godzina" value="12:00">
+  </div>
+  <div class="field">
+    <label>Dedykacja na kartce (opcjonalnie)</label>
+    <textarea id="dedykacja" placeholder="np. Wszystkiego najlepszego z okazji urodzin! 🌸"></textarea>
+  </div>
+  <div class="field">
+    <label>Dodatkowe uwagi (opcjonalnie)</label>
+    <textarea id="uwagi" placeholder="np. ulubione kolory, kwiaty których unikać..."></textarea>
+  </div>
+
+  <div class="info-box">
+    <strong>📦 Jak to działa?</strong><br>
+    Po kliknięciu przycisku otworzy się WhatsApp z gotową wiadomością. Wyślij ją do nas a my potwierdzimy zamówienie i podamy numer konta do płatności.
+  </div>
+
+  <button class="submit-btn" id="btn-zamow">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L.057 23.215a.75.75 0 00.918.919l5.46-1.461A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.694 9.694 0 01-4.964-1.365l-.355-.212-3.681.985.993-3.594-.231-.369A9.694 9.694 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+    Zamów przez WhatsApp
+  </button>
+
+</div>
+
+<footer>
+  <strong>Royal Flowers</strong><br>
+  Aleje Wolności, Nowy Sącz<br>
+  Tel: <a href="tel:+48532688820" style="color:#1a1a1a">532 688 820</a>
+</footer>
+
+<script>
+var selectedOkazja = '';
+var selectedBudzet = '';
+
+// Set min date to today
+var today = new Date();
+var dd = today.getFullYear()+'-'+(today.getMonth()<9?'0':'')+(today.getMonth()+1)+'-'+(today.getDate()<10?'0':'')+today.getDate();
+document.getElementById('data-dostawy').min = dd;
+document.getElementById('data-dostawy').value = dd;
+
+// Option buttons
+document.getElementById('okazja-grid').addEventListener('click', function(e) {
+  var btn = e.target.closest('.opt-btn');
+  if (!btn) return;
+  document.querySelectorAll('#okazja-grid .opt-btn').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  selectedOkazja = btn.getAttribute('data-val');
+  document.getElementById('err-okazja').style.display = 'none';
+});
+
+document.getElementById('budzet-grid').addEventListener('click', function(e) {
+  var btn = e.target.closest('.opt-btn');
+  if (!btn) return;
+  document.querySelectorAll('#budzet-grid .opt-btn').forEach(function(b){ b.classList.remove('selected'); });
+  btn.classList.add('selected');
+  selectedBudzet = btn.getAttribute('data-val');
+  document.getElementById('err-budzet').style.display = 'none';
+});
+
+document.getElementById('btn-zamow').addEventListener('click', function() {
+  var ok = true;
+
+  if (!selectedOkazja) { document.getElementById('err-okazja').style.display = 'block'; ok = false; }
+  if (!selectedBudzet) { document.getElementById('err-budzet').style.display = 'block'; ok = false; }
+
+  var imie = document.getElementById('imie').value.trim();
+  var telefon = document.getElementById('telefon').value.trim();
+  var adres = document.getElementById('adres').value.trim();
+  var data = document.getElementById('data-dostawy').value;
+  var godzina = document.getElementById('godzina').value;
+
+  if (!imie || !telefon || !adres || !data || !godzina) {
+    alert('Uzupelnij wszystkie wymagane pola!');
+    ok = false;
+  }
+
+  if (!ok) return;
+
+  var dedykacja = document.getElementById('dedykacja').value.trim();
+  var uwagi = document.getElementById('uwagi').value.trim();
+
+  var msg = '🌸 *ZAMÓWIENIE — Royal Flowers*\n\n';
+  msg += '👤 *Zamawiający:* ' + imie + '\n';
+  msg += '📞 *Telefon:* ' + telefon + '\n';
+  msg += '🎉 *Okazja:* ' + selectedOkazja + '\n';
+  msg += '💰 *Budżet:* ' + selectedBudzet + '\n';
+  msg += '📍 *Adres dostawy:* ' + adres + '\n';
+  msg += '📅 *Data:* ' + data + '\n';
+  msg += '🕐 *Godzina:* ' + godzina + '\n';
+  if (dedykacja) msg += '💌 *Dedykacja:* ' + dedykacja + '\n';
+  if (uwagi) msg += '📝 *Uwagi:* ' + uwagi + '\n';
+
+  var url = 'https://wa.me/48532688820?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+});
+</script>
+</body>
+</html>
